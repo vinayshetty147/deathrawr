@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEATHRAWR - Sparkling Water with Bite</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+    /* Add logo animation */
+    .logo-container {
+      transition: transform 0.3s ease;
+    }
+    
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+    
+    .site-logo {
+      filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3));
+      transition: filter 0.3s ease;
+    }
+    
+    .site-logo:hover {
+      filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.4));
+    }
+
+    .font-brutal {
+      font-family: 'Anton', sans-serif;
+    }
+
+    .neo-brutalist-button {
+      border: 4px solid black;
+      padding: 0.5rem 1rem;
+      font-family: 'Anton', sans-serif;
+      font-size: 1.125rem;
+      box-shadow: 4px 4px 0px rgba(0,0,0,1);
+      transition: transform 0.15s;
+    }
+    .neo-brutalist-button:hover {
+      transform: translate(2px, 2px);
+    }
+
+    .neo-brutalist-container {
+      border: 4px solid black;
+      box-shadow: 5px 5px 0px rgba(0,0,0,1);
+      border-radius: 0.375rem;
+    }
+
+    .neo-brutalist-input {
+      border: 4px solid black;
+      padding: 0.75rem 1rem;
+      font-size: 1.125rem;
+      border-radius: 0.375rem;
+      box-shadow: 3px 3px 0px rgba(0,0,0,1);
+      font-family: 'Anton', sans-serif;
+    }
+
+    .animate-float {
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Add new decorative patterns */
+    .pattern-grid {
+      background-image: radial-gradient(circle, black 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.1;
+    }
+
+    .ghost-skull {
+      position: absolute;
+      width: 50px;
+      height: 70px;
+      border: 4px solid black;
+      border-radius: 25px 25px 0 0;
+      background: white;
+      transform-origin: center bottom;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .ghost-skull::before, .ghost-skull::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: black;
+      border-radius: 50%;
+      top: 25px;
+    }
+
+    .ghost-skull::before {
+      left: 10px;
+    }
+
+    .ghost-skull::after {
+      right: 10px;
+    }
+
+    .ghost-bottom {
+      position: absolute;
+      bottom: -15px;
+      left: -4px;
+      right: -4px;
+      height: 20px;
+      background: white;
+      border: 4px solid black;
+      border-top: 0;
+      border-radius: 0 0 40% 40%;
+    }
+
+    .ghost-skull .ghost-bottom::before,
+    .ghost-skull .ghost-bottom::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      width: 15px;
+      height: 15px;
+      background: white;
+      border: 4px solid black;
+      border-radius: 50%;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    .product-skull {
+      position: absolute;
+      width: 40px;
+      height: 50px;
+      background: black;
+      clip-path: polygon(
+        20% 0%, 80% 0%, 100% 20%, 100% 70%,
+        85% 100%, 15% 100%, 0% 70%, 0% 20%
+      );
+      z-index: 10;
+    }
+
+    .product-skull::before,
+    .product-skull::after {
+      content: 'x';
+      position: absolute;
+      color: white;
+      font-family: 'Anton', sans-serif;
+      font-size: 16px;
+      top: 40%;
+      transform: translateY(-50%);
+    }
+
+    .product-skull::before {
+      left: 25%;
+    }
+
+    .product-skull::after {
+      right: 25%;
+    }
+
+    .skull-border {
+      position: absolute;
+      inset: -15px;
+      border: 4px solid black;
+      z-index: -1;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 0, 0, 0.1) 10px,
+        rgba(0, 0, 0, 0.1) 20px
+      );
+    }
+
+    .floating-emoji {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.6;
+      text-shadow: 2px 2px 0 #000;
+      z-index: 1;
+    }
+
+    .skull-emoji {
+      animation: floatSkull 4s ease-in-out infinite;
+    }
+
+    .ghost-emoji {
+      animation: floatGhost 4s ease-in-out infinite;
+    }
+
+    @keyframes floatSkull {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes floatGhost {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .emoji-1 { animation-delay: 0s; }
+    .emoji-2 { animation-delay: 1s; }
+    .emoji-3 { animation-delay: 2s; }
+    .emoji-4 { animation-delay: 1.5s; }
+
+    @keyframes fall {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(400px); }
+    }
+
+    .falling-can {
+      position: absolute;
+      width: 30px;
+      height: 50px;
+      background: white;
+      border: 3px solid black;
+      border-radius: 15px;
+      animation: fall linear;
+    }
+
+    .falling-obstacle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: black;
+      animation: fall linear;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ec4899;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid black;
+    }
+
+    .cart-panel {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100vh;
+      background: white;
+      border-left: 4px solid black;
+      transition: right 0.3s ease;
+      z-index: 1000;
+    }
+
+    .cart-panel.open {
+      right: 0;
+    }
+
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 999;
+    }
+
+    .cart-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .form-success {
+      transform: scale(0);
+      transition: transform 0.3s ease;
+    }
+
+    .form-success.show {
+      transform: scale(1);
+    }
+
+    /* Remove message modal styles */
+  </style>
+</head>
+<body class="bg-yellow-300 text-black min-h-screen">
+  <!-- Navigation -->
+  <nav class="flex justify-between items-center py-4 px-8 border-b-4 border-black bg-yellow-300 sticky top-0 z-50">
+    <div class="flex items-center logo-container">
+      <img src="C:\Users\Vinay N Shetty\OneDrive\Desktop\project\logo.png" 
+           alt="DEATHRAWR Logo" 
+           class="h-16 md:h-20 mr-4 site-logo">
+      <h1 class="font-brutal text-3xl md:text-4xl">DEATHRAWR</h1>
+    </div>
+    <div class="space-x-4 hidden md:flex items-center">
+      <a href="#products" class="font-brutal hover:underline">PRODUCTS</a>
+      <a href="#flavors" class="font-brutal hover:underline">FLAVORS</a>
+      <a href="#about" class="font-brutal hover:underline">ABOUT</a>
+      <button id="cartButton" class="neo-brutalist-button bg-pink-400 relative">
+        <i class="ph ph-shopping-cart text-xl"></i>
+        <span id="cartBadge" class="cart-badge">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="px-8 py-20 bg-yellow-300 text-center relative overflow-hidden">
+    <!-- Floating Emojis -->
+    <div class="floating-emoji skull-emoji emoji-1" style="top: 15%; left: 10%;">💀</div>
+    <div class="floating-emoji ghost-emoji emoji-2" style="top: 15%; right: 10%;">👻</div>
+    <div class="floating-emoji skull-emoji emoji-3" style="bottom: 15%; left: 10%;">💀</div>
+    <div class="floating-emoji ghost-emoji emoji-4" style="bottom: 15%; right: 10%;">👻</div>
+
+    <!-- Background Pattern -->
+    <div class="pattern-grid absolute inset-0 opacity-10"></div>
+    
+    <!-- Ghost Skull Decorations -->
+    <div class="relative">
+      <div class="ghost-skull absolute -top-10 left-20" style="animation-delay: 0s;">
+        <div class="ghost-bottom"></div>
+      </div>
+      <div class="ghost-skull absolute top-40 right-20" style="animation-delay: 0.5s;">
+        <div class="ghost-bottom"></div>
+      </div>
+      <div class="ghost-skull absolute bottom-20 left-40" style="animation-delay: 1s;">
+        <div class="ghost-bottom"></div>
+      </div>
+      <div class="ghost-skull absolute bottom-40 right-40" style="animation-delay: 1.5s;">
+        <div class="ghost-bottom"></div>
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto space-y-12 relative">
+      <div class="font-brutal text-3xl mb-12">
+        <span class="inline-block bg-black text-white px-8 py-4 -rotate-2 border-4 border-pink-400 shadow-[5px_5px_0px_rgba(0,0,0,1)]">
+          WELCOME TO THE
+          <span class="inline-block transform scale-90 translate-y-1">💀</span>
+        </span>
+        <div class="text-5xl mt-8">
+          <span class="line-through decoration-8 decoration-pink-400">CULT</span>
+          <span class="inline-block ml-6 transform rotate-2">GANG</span>
+        </div>
+      </div>
+      
+      <h2 class="font-brutal text-6xl md:text-7xl leading-tight mb-12">
+        <div class="-rotate-3 mb-8 transform hover:scale-105 transition-transform">
+          SPARKLING
+        </div>
+        <div class="rotate-3 mb-8 transform hover:scale-105 transition-transform">
+          WATER
+        </div>
+        <span class="inline-block bg-pink-400 px-8 py-4 rotate-1 border-4 border-black shadow-[5px_5px_0px_rgba(0,0,0,1)] mt-8 transform hover:scale-105 transition-transform">
+          WITH BITE! <span class="inline-block transform scale-90 translate-y-1">💀</span>
+        </span>
+      </h2>
+
+      <p class="text-xl mt-12 font-bold max-w-2xl mx-auto">
+        Bold flavors. Zero sugar. All attitude. 
+        <br>
+        <span class="bg-black text-white px-4 py-1 inline-block transform -rotate-1 mt-4">RAWR is the refreshingly fierce sparkling water that bites back!</span>
+      </p>
+
+      <div class="mt-12 flex flex-wrap gap-6 justify-center">
+        <a href="#shop" class="neo-brutalist-button bg-pink-400 text-lg px-8 py-4 transform hover:rotate-2">SHOP NOW</a>
+        <a href="#flavors" class="neo-brutalist-button bg-white text-lg px-8 py-4 transform hover:-rotate-2">EXPLORE FLAVORS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="products" class="bg-white py-20 px-8">
+    <div class="relative inline-block mx-auto">
+      <h3 class="text-center font-brutal text-5xl mb-12 relative inline-block">
+        OUR PRODUCTS
+        <span class="block h-3 bg-yellow-300 w-full absolute -bottom-2 left-0 z-[-1]"></span>
+      </h3>
+      <div class="product-skull absolute -top-8 -left-12 transform -rotate-12"></div>
+      <div class="product-skull absolute -top-8 -right-12 transform rotate-12"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 relative">
+      <!-- Corner Skulls -->
+      <div class="product-skull absolute -top-6 -left-6 transform -rotate-45"></div>
+      <div class="product-skull absolute -top-6 -right-6 transform rotate-45"></div>
+      <div class="product-skull absolute -bottom-6 -left-6 transform rotate-45"></div>
+      <div class="product-skull absolute -bottom-6 -right-6 transform -rotate-45"></div>
+      
+      <!-- Product 1 -->
+      <div class="neo-brutalist-container bg-blue-400 p-4 relative group">
+        <div class="skull-border rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <span class="absolute top-0 right-0 transform rotate-12 -mt-6 -mr-6 bg-yellow-300 text-black font-brutal p-2 rounded-full border-4 border-black text-sm">BEST SELLER!</span>
+        <div class="h-48 flex justify-center items-center mb-4">
+          <div class="w-24 h-44 bg-white border-4 border-black rounded-full flex items-center justify-center transform rotate-3 animate-float">
+            <span class="font-brutal text-lg leading-none text-center">DEATH<br>RAWR</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <h4 class="font-brutal text-2xl mb-1">DEATHRAWR ORIGINAL</h4>
+          <p class="italic">Classic Sparkling</p>
+          <div class="flex justify-between items-center mt-4">
+            <span class="font-brutal text-lg">$12.99</span>
+            <button class="neo-brutalist-button bg-white text-sm add-to-cart" data-name="DEATHRAWR ORIGINAL" data-price="12.99">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="neo-brutalist-container bg-green-400 p-4 relative group">
+        <div class="skull-border rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <div class="h-48 flex justify-center items-center mb-4">
+          <div class="w-24 h-44 bg-white border-4 border-black rounded-full flex items-center justify-center rotate-2 animate-float">
+            <span class="font-brutal text-lg leading-none text-center">DEATH<br>RAWR</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <h4 class="font-brutal text-2xl mb-1">DEATHRAWR LIME</h4>
+          <p class="italic">Zesty Freshness</p>
+          <div class="flex justify-between items-center mt-4">
+            <span class="font-brutal text-lg">$13.49</span>
+            <button class="neo-brutalist-button bg-white text-sm add-to-cart" data-name="DEATHRAWR LIME" data-price="13.49">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="neo-brutalist-container bg-pink-300 p-4 relative group">
+        <div class="skull-border rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <div class="h-48 flex justify-center items-center mb-4">
+          <div class="w-24 h-44 bg-white border-4 border-black rounded-full flex items-center justify-center -rotate-2 animate-float">
+            <span class="font-brutal text-lg leading-none text-center">DEATH<br>RAWR</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <h4 class="font-brutal text-2xl mb-1">DEATHRAWR BERRY</h4>
+          <p class="italic">Wild & Sweet</p>
+          <div class="flex justify-between items-center mt-4">
+            <span class="font-brutal text-lg">$13.99</span>
+            <button class="neo-brutalist-button bg-white text-sm add-to-cart" data-name="DEATHRAWR BERRY" data-price="13.99">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="neo-brutalist-container bg-purple-300 p-4 relative group">
+        <div class="skull-border rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <div class="h-48 flex justify-center items-center mb-4">
+          <div class="w-24 h-44 bg-white border-4 border-black rounded-full flex items-center justify-center rotate-1 animate-float">
+            <span class="font-brutal text-lg leading-none text-center">DEATH<br>RAWR</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <h4 class="font-brutal text-2xl mb-1">DEATHRAWR GRAPE</h4>
+          <p class="italic">Cosmic Crush</p>
+          <div class="flex justify-between items-center mt-4">
+            <span class="font-brutal text-lg">$14.49</span>
+            <button class="neo-brutalist-button bg-white text-sm add-to-cart" data-name="DEATHRAWR GRAPE" data-price="14.49">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-12">
+      <a href="#shop" class="neo-brutalist-button bg-black text-white">VIEW ALL PRODUCTS</a>
+    </div>
+  </section>
+
+  <!-- About Section with Mission -->
+  <section class="bg-white py-20 px-8">
+    <div class="max-w-6xl mx-auto">
+      <h3 class="text-center font-brutal text-5xl mb-12 relative inline-block">
+        OUR MISSION
+        <span class="block h-3 bg-yellow-300 w-full absolute -bottom-2 left-0 z-[-1]"></span>
+      </h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div class="neo-brutalist-container bg-pink-400 p-6 text-center">
+          <h4 class="font-brutal text-2xl mb-4">BOLD TASTE</h4>
+          <p class="text-lg">Creating fierce flavors that challenge the ordinary and wake up your taste buds.</p>
+        </div>
+        
+        <div class="neo-brutalist-container bg-yellow-300 p-6 text-center">
+          <h4 class="font-brutal text-2xl mb-4">ZERO SUGAR</h4>
+          <p class="text-lg">Committed to delivering amazing taste without the guilt. No sugar, no compromises.</p>
+        </div>
+        
+        <div class="neo-brutalist-container bg-blue-400 p-6 text-center">
+          <h4 class="font-brutal text-2xl mb-4">SUSTAINABILITY</h4>
+          <p class="text-lg">Using eco-friendly packaging and responsible sourcing to protect our planet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section class="bg-yellow-300 py-20 px-8">
+    <div class="max-w-6xl mx-auto">
+      <h3 class="text-center font-brutal text-5xl mb-12 relative inline-block">
+        MEET THE SQUAD
+        <span class="block h-3 bg-pink-400 w-full absolute -bottom-2 left-0 z-[-1]"></span>
+      </h3>
+      
+      <p class="text-center text-xl max-w-2xl mx-auto mb-12">
+        We're not your average beverage company. Meet the rebels who are changing the game, 
+        one sparkling water at a time.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Team Member 1 -->
+        <div class="neo-brutalist-container bg-white p-6 text-center group">
+          <div class="relative mb-6">
+            <div class="w-64 h-64 mx-auto relative overflow-hidden rounded-xl border-4 border-black">
+              <img src="C:\Users\Vinay N Shetty\OneDrive\Desktop\project\ceo.png" 
+                   alt="Hectic - Punk Rock Cat with Guitar" 
+                   class="w-full h-full object-contain bg-[#8B4513]">
+              <div class="absolute inset-0 bg-pink-400 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+            </div>
+          </div>
+          <h4 class="font-brutal text-2xl mb-2">HECTIC</h4>
+          <p class="text-lg mb-2 text-gray-600">Founder & CEO</p>
+          <p class="text-gray-600">The mastermind behind DEATHRAWR's fierce flavors and bold vision.</p>
+          <div class="mt-4 flex justify-center space-x-4">
+            <a href="#" class="text-black hover:text-pink-400">
+              <i class="ph ph-guitar text-xl"></i>
+            </a>
+            <a href="#" class="text-black hover:text-pink-400">
+              <i class="ph ph-spotify-logo text-xl"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="neo-brutalist-container bg-white p-6 text-center group">
+          <div class="relative mb-6">
+            <div class="w-64 h-64 mx-auto relative overflow-hidden rounded-xl border-4 border-black">
+              <img src="C:\Users\Vinay N Shetty\OneDrive\Desktop\project\cfo.png" 
+                   alt="Max Metal - Party Animal Character" 
+                   class="w-full h-full object-contain bg-[#87CEEB]">
+              <div class="absolute inset-0 bg-yellow-300 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+            </div>
+          </div>
+          <h4 class="font-brutal text-2xl mb-2">MAX METAL</h4>
+          <p class="text-lg mb-2 text-gray-600">Chief Financial Officer</p>
+          <p class="text-gray-600">Keeping our numbers as sharp as our flavors.</p>
+          <div class="mt-4 flex justify-center space-x-4">
+            <a href="#" class="text-black hover:text-pink-400">
+              <i class="ph ph-money text-xl"></i>
+            </a>
+            <a href="#" class="text-black hover:text-pink-400">
+              <i class="ph ph-chart-line-up text-xl"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="neo-brutalist-container bg-white p-6 text-center group">
+          <div class="relative mb-6">
+            <div class="w-64 h-64 mx-auto relative overflow-hidden rounded-xl border-4 border-black">
+              <img src="C:\Users\Vinay N Shetty\OneDrive\Desktop\project\lead designer.png" 
+                   alt="Luna Byte - Cool Duck with Guitar" 
+                   class="w-full h-full object-contain bg-[#8B4513]">
+              <div class="absolute inset-0 bg-blue-400 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+            </div>
+          </div>
+          <h4 class="font-brutal text-2xl mb-2">LUNA BYTE</h4>
+          <p class="text-lg mb-2 text-gray-600">Lead Designer</p>
+          <p class="text-gray-600">The creative force behind our killer aesthetic.</p>
+          <div class="mt-4 flex justify-center space-x-4">
+            <a href="#" class="text-black hover:text-pink-400">
+              <i class="ph ph-paint-brush text-xl"></i>
+            </a>
+            <a href="#" class="text-black hover:text-pink-400">
+              <i class="ph ph-pencil-circle text-xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="#careers" class="neo-brutalist-button bg-black text-white inline-block">
+          JOIN OUR TEAM
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="bg-yellow-300 py-20 px-8">
+    <div class="max-w-4xl mx-auto">
+      <h3 class="text-center font-brutal text-5xl mb-12">
+        FAQ
+      </h3>
+      
+      <div class="space-y-6">
+        <div class="neo-brutalist-container bg-white p-6">
+          <h4 class="font-brutal text-xl mb-2">What makes DEATHRAWR different? 💀</h4>
+          <p>We're not your average sparkling water. DEATHRAWR combines bold flavors with zero sugar and a fierce attitude that sets us apart from the boring bubbles.</p>
+        </div>
+        
+        <div class="neo-brutalist-container bg-white p-6">
+          <h4 class="font-brutal text-xl mb-2">Is DEATHRAWR really sugar-free? 🔍</h4>
+          <p>Absolutely! We use natural flavors and zero sugar alternatives to create our intense taste experience.</p>
+        </div>
+        
+        <div class="neo-brutalist-container bg-white p-6">
+          <h4 class="font-brutal text-xl mb-2">Where can I buy DEATHRAWR? 🛒</h4>
+          <p>DEATHRAWR is available online and in select retail locations. Check our store locator or shop directly through our website.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="bg-white py-20 px-8">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-center font-brutal text-5xl mb-12">GET IN TOUCH</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="neo-brutalist-container bg-pink-400 p-8">
+          <form id="contactForm" class="space-y-6">
+            <div>
+              <label class="font-brutal block mb-2">NAME</label>
+              <input type="text" id="contactName" class="neo-brutalist-input w-full bg-white" required>
+            </div>
+            <div>
+              <label class="font-brutal block mb-2">EMAIL</label>
+              <input type="email" id="contactEmail" class="neo-brutalist-input w-full bg-white" required>
+            </div>
+            <div>
+              <label class="font-brutal block mb-2">MESSAGE</label>
+              <textarea id="contactMessage" class="neo-brutalist-input w-full bg-white h-32" required></textarea>
+            </div>
+            <button type="submit" class="neo-brutalist-button bg-black text-white w-full">SEND IT!</button>
+          </form>
+        </div>
+        
+        <div class="space-y-8">
+          <div class="neo-brutalist-container bg-yellow-300 p-6">
+            <h4 class="font-brutal text-2xl mb-4">VISIT US</h4>
+            <p class="text-lg">123 Fierce Street<br>Flavor City, FC 12345<br>United States</p>
+          </div>
+          
+          <div class="neo-brutalist-container bg-blue-400 p-6">
+            <h4 class="font-brutal text-2xl mb-4">CONTACT</h4>
+            <p class="text-lg">Email: hello@deathrawr.com<br>Phone: (555) 123-4567</p>
+          </div>
+          
+          <div class="neo-brutalist-container bg-white p-6">
+            <h4 class="font-brutal text-2xl mb-4">FOLLOW US</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="neo-brutalist-button bg-black text-white px-4">
+                <i class="ph ph-instagram-logo text-2xl"></i>
+              </a>
+              <a href="#" class="neo-brutalist-button bg-black text-white px-4">
+                <i class="ph ph-twitter-logo text-2xl"></i>
+              </a>
+              <a href="#" class="neo-brutalist-button bg-black text-white px-4">
+                <i class="ph ph-facebook-logo text-2xl"></i>
+              </a>
+              <a href="#" class="neo-brutalist-button bg-black text-white px-4">
+                <i class="ph ph-tiktok-logo text-2xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="bg-yellow-300 py-20 px-8">
+    <div class="max-w-2xl mx-auto neo-brutalist-container bg-white p-8 rotate-1">
+      <h2 class="text-4xl font-brutal text-center mb-4">JOIN THE DEATHRAWR PACK!</h2>
+      <p class="text-center mb-6">Subscribe for exclusive offers, new flavor alerts, and 15% off your first order.</p>
+      <form class="flex flex-col sm:flex-row gap-4">
+        <input type="email" placeholder="YOUR EMAIL" required class="neo-brutalist-input flex-1 bg-white" />
+        <button type="submit" class="neo-brutalist-button bg-pink-400">SUBSCRIBE</button>
+      </form>
+      <p class="text-center text-sm mt-4">No spam. Just bold sparkling content.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white py-12 px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h4 class="font-brutal text-xl mb-4">SHOP</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-pink-400">All Products</a></li>
+          <li><a href="#" class="hover:text-pink-400">Merchandise</a></li>
+          <li><a href="#" class="hover:text-pink-400">Bulk Orders</a></li>
+          <li><a href="#" class="hover:text-pink-400">Gift Cards</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-brutal text-xl mb-4">ABOUT</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-pink-400">Our Story</a></li>
+          <li><a href="#" class="hover:text-pink-400">Sustainability</a></li>
+          <li><a href="#" class="hover:text-pink-400">Careers</a></li>
+          <li><a href="#" class="hover:text-pink-400">Press</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-brutal text-xl mb-4">HELP</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-pink-400">FAQs</a></li>
+          <li><a href="#" class="hover:text-pink-400">Shipping</a></li>
+          <li><a href="#" class="hover:text-pink-400">Returns</a></li>
+          <li><a href="#" class="hover:text-pink-400">Contact Us</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-brutal text-xl mb-4">LEGAL</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-pink-400">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-pink-400">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-pink-400">Accessibility</a></li>
+          <li><a href="#" class="hover:text-pink-400">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto mt-12 pt-8 border-t border-gray-800">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="font-brutal">&copy; 2025 DEATHRAWR - All rights reserved.</p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="#" class="text-gray-400 hover:text-pink-400">
+            <i class="ph ph-instagram-logo text-2xl"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-pink-400">
+            <i class="ph ph-twitter-logo text-2xl"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-pink-400">
+            <i class="ph ph-facebook-logo text-2xl"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-pink-400">
+            <i class="ph ph-tiktok-logo text-2xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Add Cart Panel -->
+  <div id="cartOverlay" class="cart-overlay"></div>
+  <div id="cartPanel" class="cart-panel">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="font-brutal text-2xl">YOUR CART</h2>
+        <button id="closeCart" class="neo-brutalist-button bg-black text-white">
+          <i class="ph ph-x text-xl"></i>
+        </button>
+      </div>
+      <div id="cartItems" class="space-y-4"></div>
+      <div class="border-t-4 border-black mt-6 pt-6">
+        <div class="flex justify-between mb-4">
+          <span class="font-brutal">TOTAL:</span>
+          <span id="cartTotal" class="font-brutal">$0.00</span>
+        </div>
+        <button id="checkoutButton" class="neo-brutalist-button bg-pink-400 w-full">
+          CHECKOUT
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+
+    // Cart Functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartButton = document.getElementById('cartButton');
+      const cartPanel = document.getElementById('cartPanel');
+      const cartOverlay = document.getElementById('cartOverlay');
+      const closeCart = document.getElementById('closeCart');
+      const cartItems = document.getElementById('cartItems');
+      const cartBadge = document.getElementById('cartBadge');
+      const cartTotal = document.getElementById('cartTotal');
+      
+      let cart = [];
+
+      function updateCart() {
+        cartItems.innerHTML = '';
+        let total = 0;
+        
+        cart.forEach((item, index) => {
+          const itemElement = document.createElement('div');
+          itemElement.className = 'flex justify-between items-center p-4 bg-gray-100 rounded neo-brutalist-container';
+          itemElement.innerHTML = `
+            <div>
+              <h3 class="font-brutal">${item.name}</h3>
+              <p>$${item.price}</p>
+            </div>
+            <button class="remove-item" data-index="${index}">
+              <i class="ph ph-trash text-xl"></i>
+            </button>
+          `;
+          cartItems.appendChild(itemElement);
+          total += parseFloat(item.price);
+        });
+
+        cartBadge.textContent = cart.length;
+        cartTotal.textContent = `$${total.toFixed(2)}`;
+      }
+
+      document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', () => {
+          const name = button.dataset.name;
+          const price = button.dataset.price;
+          cart.push({ name, price });
+          updateCart();
+          
+          // Show animation
+          button.textContent = 'ADDED!';
+          setTimeout(() => button.textContent = 'ADD TO CART', 1000);
+        });
+      });
+
+      cartButton.addEventListener('click', () => {
+        cartPanel.classList.add('open');
+        cartOverlay.classList.add('open');
+      });
+
+      closeCart.addEventListener('click', () => {
+        cartPanel.classList.remove('open');
+        cartOverlay.classList.remove('open');
+      });
+
+      cartOverlay.addEventListener('click', () => {
+        cartPanel.classList.remove('open');
+        cartOverlay.classList.remove('open');
+      });
+
+      // Form Handling
+      document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          const successMessage = document.createElement('div');
+          successMessage.className = 'form-success bg-green-500 text-white p-4 rounded mt-4 text-center font-brutal';
+          successMessage.textContent = 'Thank you! We\'ll be in touch soon.';
+          
+          form.appendChild(successMessage);
+          setTimeout(() => successMessage.classList.add('show'), 100);
+          
+          // Reset form
+          form.reset();
+          
+          // Remove success message after 3 seconds
+          setTimeout(() => {
+            successMessage.classList.remove('show');
+            setTimeout(() => successMessage.remove(), 300);
+          }, 3000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
